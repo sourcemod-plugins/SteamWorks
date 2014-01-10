@@ -30,9 +30,6 @@
     <ClCompile Include="..\swforwards.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\swgamedata.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\swgameserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\swforwards.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\swgamedata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\swgameserver.h">

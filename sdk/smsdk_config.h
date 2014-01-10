@@ -38,10 +38,10 @@
  */
 
 /* Basic information exposed publicly */
-#define SMEXT_CONF_NAME			"SteamWorks Extension"
-#define SMEXT_CONF_DESCRIPTION	"Exposes SteamWorks functions to Developers"
-#define SMEXT_CONF_VERSION		"1.1"
-#define SMEXT_CONF_AUTHOR		"Kyle Sanderson"
+#define SMEXT_CONF_NAME			"Steamworks-L4D2"
+#define SMEXT_CONF_DESCRIPTION	"Exposes some of the Steamworks functions to SourceMod"
+#define SMEXT_CONF_VERSION		"1.2"
+#define SMEXT_CONF_AUTHOR		"Kyle Sanderson, Visor"
 #define SMEXT_CONF_URL			"http://AlliedMods.net"
 #define SMEXT_CONF_LOGTAG		"STEAMWORKS"
 #define SMEXT_CONF_LICENSE		"GPL"
@@ -56,16 +56,16 @@
  * @brief Sets whether or not this plugin required Metamod.
  * NOTE: Uncomment to enable, comment to disable.
  */
-//#define SMEXT_CONF_METAMOD		
+#define SMEXT_CONF_METAMOD		
 
 /** Enable interfaces you want to use here by uncommenting lines */
 #define SMEXT_ENABLE_FORWARDSYS
 //#define SMEXT_ENABLE_HANDLESYS
-//#define SMEXT_ENABLE_PLAYERHELPERS
+#define SMEXT_ENABLE_PLAYERHELPERS
 //#define SMEXT_ENABLE_DBMANAGER
-#define SMEXT_ENABLE_GAMECONF
+//#define SMEXT_ENABLE_GAMECONF
 //#define SMEXT_ENABLE_MEMUTILS
-//#define SMEXT_ENABLE_GAMEHELPERS
+#define SMEXT_ENABLE_GAMEHELPERS
 //#define SMEXT_ENABLE_TIMERSYS
 //#define SMEXT_ENABLE_THREADER
 //#define SMEXT_ENABLE_LIBSYS

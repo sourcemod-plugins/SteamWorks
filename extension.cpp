@@ -39,22 +39,31 @@
 SteamWorks g_SteamWorks;		/**< Global singleton for extension's main interface */
 
 SMEXT_LINK(&g_SteamWorks);
- 
+
+//CGlobalVars *gpGlobals;
+
+//ConVar version("steamworks_version", SMEXT_CONF_VERSION, FCVAR_SPONLY|FCVAR_NOTIFY, "Steamworks-L4D2 Extension Version");
+
 bool SteamWorks::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
-	this->pSWGameData = new SteamWorksGameData;
 	this->pSWGameServer = new SteamWorksGameServer;
-	
 	this->pSWForward = new SteamWorksForwards;
 	this->pGSNatives = new SteamWorksGSNatives;
-	return true;
+    
+    return true;
 }
 
 void SteamWorks::SDK_OnUnload()
 {
 	delete this->pGSNatives;
 	delete this->pSWForward;
-	
 	delete this->pSWGameServer;
-	delete this->pSWGameData;
 }
+/*
+bool SteamWorks::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
+{
+	gpGlobals = ismm->GetCGlobals();
+    
+	return true;
+}
+*/

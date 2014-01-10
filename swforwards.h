@@ -23,7 +23,7 @@
 #include "smsdk_ext.h"
 
 typedef uint32_t Account_t;
-
+    
 class SteamWorksForwards
 {
 	public:
@@ -31,7 +31,7 @@ class SteamWorksForwards
 		~SteamWorksForwards();
 
 	public:
-		void NotifyPawnValidateClient(Account_t parent, Account_t child);
+		void NotifyPawnValidateClient(CSteamID child, CSteamID parent);
 		
 	private:
 		STEAM_GAMESERVER_CALLBACK(SteamWorksForwards, OnGSClientApprove, GSClientApprove_t, m_CallbackGSClientApprove);
@@ -39,7 +39,7 @@ class SteamWorksForwards
 		STEAM_GAMESERVER_CALLBACK(SteamWorksForwards, OnSteamServersConnected, SteamServersConnected_t, m_CallbackSteamConnected);
 		STEAM_GAMESERVER_CALLBACK(SteamWorksForwards, OnSteamServersConnectFailure, SteamServerConnectFailure_t, m_CallbackSteamConnectFailure);
 		STEAM_GAMESERVER_CALLBACK(SteamWorksForwards, OnSteamServersDisconnected, SteamServersDisconnected_t, m_CallbackSteamDisconnected);
-	
+
 	private:
 		IForward *pFOVC;	/* Forward On Validate Client */
 		IForward *pFOSSC;	/* Forward On Steam Servers Connected */

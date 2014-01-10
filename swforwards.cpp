@@ -26,10 +26,10 @@ SteamWorksForwards::SteamWorksForwards() :
 		m_CallbackSteamConnectFailure(this, &SteamWorksForwards::OnSteamServersConnectFailure),
 		m_CallbackSteamDisconnected(this, &SteamWorksForwards::OnSteamServersDisconnected)
 {
-	this->pFOVC = forwards->CreateForward("SW_OnValidateClient", ET_Ignore, 2, NULL, Param_Cell, Param_Cell);
-	this->pFOSSC = forwards->CreateForward("SteamWorks_SteamServersConnected", ET_Ignore, 0, NULL);
-	this->pFOSSCF = forwards->CreateForward("SteamWorks_SteamServersConnectFailure", ET_Ignore, 1, NULL, Param_Cell);
-	this->pFOSSD = forwards->CreateForward("SteamWorks_SteamServersDisconnected", ET_Ignore, 1, NULL, Param_Cell);
+	this->pFOSSC = forwards->CreateForward("Steamworks_OnServersConnected", ET_Ignore, 0, NULL);
+	this->pFOSSCF = forwards->CreateForward("Steamworks_OnServersConnectFailure", ET_Ignore, 1, NULL, Param_Cell);
+	this->pFOSSD = forwards->CreateForward("Steamworks_OnServersDisconnected", ET_Ignore, 1, NULL, Param_Cell);
+    this->pFOVC = forwards->CreateForward("Steamworks_OnFamilySharingDetected", ET_Ignore, 2, NULL, Param_String, Param_String);
 }
 
 SteamWorksForwards::~SteamWorksForwards()
@@ -40,26 +40,44 @@ SteamWorksForwards::~SteamWorksForwards()
 	forwards->ReleaseForward(this->pFOSSD);
 }
 
-void SteamWorksForwards::NotifyPawnValidateClient(Account_t parent, Account_t child)
+// workaround for compatibility
+inline const char *RenderSteamID(CSteamID steamID)
+{
+    char* pchBuf;
+    static char rgchBuf[4][30];
+    static int nBuf = 0;
+    pchBuf = rgchBuf[nBuf++];
+    nBuf %= 4;
+    
+    AccountID_t steamid32 = steamID.GetAccountID();
+
+    sprintf(pchBuf, "STEAM_0:%u:%u", (steamid32 % 2) ? 1 : 0, (uint32)steamid32 / 2);
+    return pchBuf;
+}
+
+void SteamWorksForwards::NotifyPawnValidateClient(CSteamID child, CSteamID parent)
 {
 	if (this->pFOVC->GetFunctionCount() == 0)
 	{
 		return;
 	}
 
-	this->pFOVC->PushCell(parent);
-	this->pFOVC->PushCell(child);
-	this->pFOVC->Execute(NULL);
+    if (child.GetAccountID() != parent.GetAccountID())
+    {
+        this->pFOVC->PushString(RenderSteamID(child));
+        this->pFOVC->PushString(RenderSteamID(parent));
+        this->pFOVC->Execute(NULL);
+    }
 }
 
 void SteamWorksForwards::OnGSClientApprove(GSClientApprove_t *pApprove)
 {
-	this->NotifyPawnValidateClient(pApprove->m_OwnerSteamID.GetAccountID(), pApprove->m_SteamID.GetAccountID());
+	this->NotifyPawnValidateClient(pApprove->m_SteamID, pApprove->m_OwnerSteamID);
 }
 
 void SteamWorksForwards::OnValidateTicket(ValidateAuthTicketResponse_t *pTicket)
 {
-	this->NotifyPawnValidateClient(pTicket->m_OwnerSteamID.GetAccountID(), pTicket->m_SteamID.GetAccountID());
+	this->NotifyPawnValidateClient(pTicket->m_SteamID, pTicket->m_OwnerSteamID);
 }
 
 void SteamWorksForwards::OnSteamServersConnected(SteamServersConnected_t *pResponse)
@@ -89,8 +107,7 @@ void SteamWorksForwards::OnSteamServersDisconnected(SteamServersDisconnected_t *
 	{
 		return;
 	}
-	
+
 	this->pFOSSD->PushCell(pResponse->m_eResult);
 	this->pFOSSD->Execute(NULL);
 }
-

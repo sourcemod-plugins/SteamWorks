@@ -1,4 +1,4 @@
-SteamWorks
-==========
+Steamworks for L4D2
+===================
 
-Exposing SteamWorks functions to SourcePawn.
+Check the include file for the latest set of forwards and natives.

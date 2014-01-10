@@ -150,16 +150,66 @@ static cell_t sm_ForceHeartbeat(IPluginContext *pContext, const cell_t *params)
 	return 1;
 }
 
+static cell_t sm_WasRestartRequested(IPluginContext *pContext, const cell_t *params)
+{
+	ISteamGameServer *pServer = GetGSPointer();
+
+	if (pServer == NULL)
+	{
+		return 0;
+	}
+
+	return pServer->WasRestartRequested();
+}
+
+static cell_t sm_UserHasSubscription(IPluginContext *pContext, const cell_t *params)
+{
+	ISteamGameServer *pServer = GetGSPointer();
+
+	if (pServer == NULL)
+	{
+		return 0;
+	}
+    
+	int index = params[1];
+	if (index < 1 || index > playerhelpers->GetMaxClients())
+	{
+		return pContext->ThrowNativeError("Client index %d is invalid.", index);
+	}
+
+	edict_t *pEdict = gamehelpers->EdictOfIndex(index);
+	if (pEdict == NULL)
+	{
+		return pContext->ThrowNativeError("Edict for client %d is invalid.", index);
+	}
+
+	IGamePlayer *pPlayer = playerhelpers->GetGamePlayer(pEdict);
+	if (pPlayer == NULL || !pPlayer->IsAuthorized())
+	{
+		return pContext->ThrowNativeError("CSteamID for client %d is not ready.", index);
+	}
+
+	const CSteamID *steamID = engine->GetClientSteamID(pEdict);
+	if (steamID == NULL)
+	{
+		return pContext->ThrowNativeError("Could not retrieve CSteamID for client %d.", index);
+	}
+    
+	return pServer->UserHasLicenseForApp(*steamID, params[2]);
+}
+
 static sp_nativeinfo_t gsnatives[] = {
-	{"SteamWorks_IsVACEnabled",				sm_IsVACEnabled},
-	{"SteamWorks_GetPublicIP",				sm_GetPublicIP},
-	{"SteamWorks_GetPublicIPCell",				sm_GetPublicIPCell},
-	{"SteamWorks_IsLoaded",				sm_IsLoaded},
-	{"SteamWorks_SetGameDescription",	sm_SetGameDescription},
-	{"SteamWorks_IsConnected",				sm_IsConnected},
-	{"SteamWorks_SetRule",						sm_SetRule},
-	{"SteamWorks_ClearRules",						sm_ClearRules},
-	{"SteamWorks_ForceHeartbeat",				sm_ForceHeartbeat},
+	{"Steamworks_IsVACEnabled",				sm_IsVACEnabled},
+	{"Steamworks_GetPublicIP",				sm_GetPublicIP},
+	{"Steamworks_GetPublicIPCell",				sm_GetPublicIPCell},
+	{"Steamworks_IsLoaded",				sm_IsLoaded},
+	{"Steamworks_SetGameDescription",	sm_SetGameDescription},
+	{"Steamworks_IsConnected",				sm_IsConnected},
+	{"Steamworks_SetRule",						sm_SetRule},
+	{"Steamworks_ClearRules",						sm_ClearRules},
+	{"Steamworks_ForceHeartbeat",				sm_ForceHeartbeat},
+	{"Steamworks_WasRestartRequested",				sm_WasRestartRequested},
+	{"Steamworks_UserHasSubscription",				sm_UserHasSubscription},
 	{NULL,											NULL}
 };
 

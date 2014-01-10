@@ -42,7 +42,6 @@
 #include "steam_gameserver.h"
 
 #include "swgameserver.h"
-#include "swgamedata.h"
 
 #include "swforwards.h"
 #include "gsnatives.h"
@@ -126,7 +125,6 @@ public:
 	//virtual void OnClientDisconnecting(int client);
 public:
 	SteamWorksForwards *pSWForward;
-	SteamWorksGameData *pSWGameData;
 	SteamWorksGameServer *pSWGameServer;
 	SteamWorksGSNatives *pGSNatives;
 };

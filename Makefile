@@ -5,27 +5,27 @@
 ### EDIT THESE PATHS FOR YOUR OWN SETUP ###
 ###########################################
 
-SMSDK = ../..
+SMSDK = ../sourcemod-central
 HL2SDK_ORIG = ../../../hl2sdk
 HL2SDK_OB = ../../../hl2sdk-ob
-HL2SDK_CSS = ../../../hl2sdk-css
+HL2SDK_CSS = ../hl2sdk-css
 HL2SDK_OB_VALVE = ../../../hl2sdk-2013
 HL2SDK_L4D = ../../../hl2sdk-l4d
-HL2SDK_L4D2 = ../../../hl2sdk-l4d2
+HL2SDK_L4D2 = ../hl2sdk-l4d2
 HL2SDK_CSGO = ../../../hl2sdk-csgo
-MMSOURCE19 = ../../../mmsource-1.9
-STEAMWORKS = ../../../opensteamworks
+MMSOURCE19 = ../mmsource-central
+STEAMWORKS = ../opensteamworks
 
 #####################################
 ### EDIT BELOW FOR OTHER PROJECTS ###
 #####################################
 
-PROJECT = SteamWorks
+PROJECT = steamworks
 
 #Uncomment for Metamod: Source enabled extension
-#USEMETA = true
+USEMETA = true
 
-OBJECTS = sdk/smsdk_ext.cpp extension.cpp swgameserver.cpp swgamedata.cpp swforwards.cpp gsnatives.cpp
+OBJECTS = sdk/smsdk_ext.cpp extension.cpp swgameserver.cpp swforwards.cpp gsnatives.cpp
 
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###
@@ -85,6 +85,7 @@ ifeq "$(ENGINE)" "original"
 	METAMOD = $(MMSOURCE19)/core-legacy
 else
 	INCLUDE += -I$(HL2SDK)/public/game/server
+	INCLUDE += -I../steamworkssdk
 	METAMOD = $(MMSOURCE19)/core
 endif
 
@@ -107,13 +108,13 @@ ifneq (,$(filter original orangebox,$(ENGINE)))
 	LIB_SUFFIX = _i486.$(LIB_EXT)
 else
 	LIB_PREFIX = lib
-	LIB_SUFFIX = .$(LIB_EXT)
+	LIB_SUFFIX = _srv.$(LIB_EXT)
 endif
 
-INCLUDE += -I. -I.. -Isdk -I$(SMSDK)/public -I$(SMSDK)/public/sourcepawn
+INCLUDE += -I. -I.. -Isdk -I$(SMSDK)/public -I$(SMSDK)/public/sourcepawn -I../opensteamworks/Open\ Steamworks
 
 ifeq "$(USEMETA)" "true"
-	LINK_HL2 = $(HL2LIB)/tier1_i486.a $(LIB_PREFIX)vstdlib$(LIB_SUFFIX) $(LIB_PREFIX)tier0$(LIB_SUFFIX)
+	LINK_HL2 = $(HL2LIB)/tier1_i486.a $(HL2LIB)/$(LIB_PREFIX)vstdlib$(LIB_SUFFIX) $(HL2LIB)/$(LIB_PREFIX)tier0$(LIB_SUFFIX)
 	ifeq "$(ENGINE)" "csgo"
 		LINK_HL2 += $(HL2LIB)/interfaces_i486.a
 	endif
@@ -128,7 +129,7 @@ ifeq "$(USEMETA)" "true"
 endif
 
 LINK += -m32 -lm -ldl
-LINK += $(STEAMWORKS)/redistributable_bin/linux32/libsteam_api.so
+LINK += ./libsteam_api.so
 
 CFLAGS += -DPOSIX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp -Dstrnicmp=strncasecmp \
 	-D_snprintf=snprintf -D_vsnprintf=vsnprintf -D_alloca=alloca -Dstrcmpi=strcasecmp -DCOMPILER_GCC -Wall -Werror \
@@ -213,8 +214,8 @@ $(BIN_DIR)/%.o: %.cpp
 all: check
 	mkdir -p $(BIN_DIR)/sdk
 	if [ "$(USEMETA)" = "true" ]; then \
-		ln -sf $(HL2LIB)/$(LIB_PREFIX)vstdlib$(LIB_SUFFIX); \
-		ln -sf $(HL2LIB)/$(LIB_PREFIX)tier0$(LIB_SUFFIX); \
+		cp $(HL2LIB)/$(LIB_PREFIX)vstdlib$(LIB_SUFFIX) $(LIB_PREFIX)vstdlib$(LIB_SUFFIX); \
+        cp $(HL2LIB)/$(LIB_PREFIX)tier0$(LIB_SUFFIX) $(LIB_PREFIX)tier0$(LIB_SUFFIX); \
 	fi
 	$(MAKE) -f $(MAKEFILE_NAME) extension
 
