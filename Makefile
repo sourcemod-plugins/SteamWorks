@@ -5,15 +5,15 @@
 ### EDIT THESE PATHS FOR YOUR OWN SETUP ###
 ###########################################
 
-SMSDK = ../sourcemod-central
+SMSDK = ../sourcemod
 HL2SDK_ORIG = ../../../hl2sdk
 HL2SDK_OB = ../../../hl2sdk-ob
 HL2SDK_CSS = ../hl2sdk-css
-HL2SDK_OB_VALVE = ../../../hl2sdk-2013
+HL2SDK_OB_VALVE = ../source-sdk-2013
 HL2SDK_L4D = ../../../hl2sdk-l4d
 HL2SDK_L4D2 = ../hl2sdk-l4d2
 HL2SDK_CSGO = ../../../hl2sdk-csgo
-MMSOURCE19 = ../mmsource-central
+MMSOURCE19 = ../mmsource-1.10.6
 STEAMWORKS = ../opensteamworks
 
 #####################################
@@ -34,7 +34,7 @@ OBJECTS = sdk/smsdk_ext.cpp extension.cpp swgameserver.cpp swforwards.cpp gsnati
 C_OPT_FLAGS = -DNDEBUG -O3 -funroll-loops -pipe -fno-strict-aliasing
 C_DEBUG_FLAGS = -D_DEBUG -DDEBUG -g -ggdb3
 C_GCC4_FLAGS = -fvisibility=hidden
-CPP_GCC4_FLAGS = -fvisibility-inlines-hidden
+CPP_GCC4_FLAGS = -fvisibility-inlines-hidden -std=c++11
 CPP = gcc
 CPP_OSX = clang
 
@@ -111,7 +111,9 @@ else
 	LIB_SUFFIX = _srv.$(LIB_EXT)
 endif
 
-INCLUDE += -I. -I.. -Isdk -I$(SMSDK)/public -I$(SMSDK)/public/sourcepawn -I../opensteamworks/Open\ Steamworks
+INCLUDE += -I. -I.. -Isdk -I$(SMSDK)/public -I$(SMSDK)/public/sourcepawn -I../opensteamworks/Open\ Steamworks -I../sourcepawn/include -I../amtl -I../amtl/amtl
+
+#-I../source-sdk-2013/mp/src/public/steam/
 
 ifeq "$(USEMETA)" "true"
 	LINK_HL2 = $(HL2LIB)/tier1_i486.a $(HL2LIB)/$(LIB_PREFIX)vstdlib$(LIB_SUFFIX) $(HL2LIB)/$(LIB_PREFIX)tier0$(LIB_SUFFIX)
@@ -138,8 +140,10 @@ CPPFLAGS += -Wno-non-virtual-dtor -fno-exceptions -fno-rtti
 
 INCLUDE += -I$(STEAMWORKS)/public/steam
 INCLUDE += -I$(HL2SDK)/public/steam
+INCLUDE += -I../source-sdk-2013/mp/src/public/steam
 
 CFLAGS += -DVERSION_SAFE_STEAM_API_INTERFACES
+
 
 ################################################
 ### DO NOT EDIT BELOW HERE FOR MOST PROJECTS ###
@@ -220,6 +224,7 @@ all: check
 	$(MAKE) -f $(MAKEFILE_NAME) extension
 
 check:
+	echo ${INCLUDE}
 	if [ "$(USEMETA)" = "true" ] && [ "$(ENGSET)" = "false" ]; then \
 		echo "You must supply one of the following values for ENGINE:"; \
 		echo "csgo, left4dead2, left4dead, css, orangeboxvalve, orangebox, or original"; \
