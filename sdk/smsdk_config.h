@@ -41,7 +41,7 @@
 #define SMEXT_CONF_NAME			"Steamworks-L4D2"
 #define SMEXT_CONF_DESCRIPTION	"Exposes some of the Steamworks functions to SourceMod"
 #define SMEXT_CONF_VERSION		"1.2"
-#define SMEXT_CONF_AUTHOR		"Kyle Sanderson, Visor"
+#define SMEXT_CONF_AUTHOR		"Kyle Sanderson, Visor, mac & cheese (thresh0ld)"
 #define SMEXT_CONF_URL			"http://AlliedMods.net"
 #define SMEXT_CONF_LOGTAG		"STEAMWORKS"
 #define SMEXT_CONF_LICENSE		"GPL"
