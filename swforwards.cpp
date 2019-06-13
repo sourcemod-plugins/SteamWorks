@@ -51,7 +51,7 @@ inline const char *RenderSteamID(CSteamID steamID)
     
     AccountID_t steamid32 = steamID.GetAccountID();
 
-    sprintf(pchBuf, "STEAM_0:%u:%u", (steamid32 % 2) ? 1 : 0, (uint32)steamid32 / 2);
+    sprintf(pchBuf, "STEAM_1:%u:%u", (steamid32 % 2) ? 1 : 0, (uint32)steamid32 / 2);
     return pchBuf;
 }
 
