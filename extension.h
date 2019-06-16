@@ -50,7 +50,7 @@
  * @brief Sample implementation of the SDK Extension.
  * Note: Uncomment one of the pre-defined virtual functions in order to use it.
  */
-class SteamWorks :
+class SteamWorksL4D2 :
 	public SDKExtension
 {
 public:
@@ -125,9 +125,9 @@ public:
 	//virtual void OnClientDisconnecting(int client);
 public:
 	SteamWorksForwards *pSWForward;
-	SteamWorksGameServer *pSWGameServer;
-	SteamWorksGSNatives *pGSNatives;
+	//SteamWorksGameServer *pSWGameServer;
+	//SteamWorksGSNatives *pGSNatives;
 };
 
-extern SteamWorks g_SteamWorks;
+extern SteamWorksL4D2 g_SteamWorks;
 #endif // _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_

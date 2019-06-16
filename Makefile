@@ -20,12 +20,13 @@ STEAMWORKS = ../opensteamworks
 ### EDIT BELOW FOR OTHER PROJECTS ###
 #####################################
 
-PROJECT = steamworks
+PROJECT = SteamWorks-Left4Dead2
 
 #Uncomment for Metamod: Source enabled extension
 USEMETA = true
 
-OBJECTS = sdk/smsdk_ext.cpp extension.cpp swgameserver.cpp swforwards.cpp gsnatives.cpp
+# gsnatives.cpp swgameserver.cpp
+OBJECTS = sdk/smsdk_ext.cpp extension.cpp swforwards.cpp
 
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###

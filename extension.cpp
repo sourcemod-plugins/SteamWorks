@@ -36,34 +36,22 @@
  * @brief Implement extension code here.
  */
 
-SteamWorks g_SteamWorks;		/**< Global singleton for extension's main interface */
+SteamWorksL4D2 g_SteamWorks;		/**< Global singleton for extension's main interface */
 
 SMEXT_LINK(&g_SteamWorks);
 
-//CGlobalVars *gpGlobals;
-
-//ConVar version("steamworks_version", SMEXT_CONF_VERSION, FCVAR_SPONLY|FCVAR_NOTIFY, "Steamworks-L4D2 Extension Version");
-
-bool SteamWorks::SDK_OnLoad(char *error, size_t maxlength, bool late)
+bool SteamWorksL4D2::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
-	this->pSWGameServer = new SteamWorksGameServer;
+	//this->pSWGameServer = new SteamWorksGameServer;
 	this->pSWForward = new SteamWorksForwards;
-	this->pGSNatives = new SteamWorksGSNatives;
+	//this->pGSNatives = new SteamWorksGSNatives;
     
     return true;
 }
 
-void SteamWorks::SDK_OnUnload()
+void SteamWorksL4D2::SDK_OnUnload()
 {
-	delete this->pGSNatives;
+	//delete this->pGSNatives;
 	delete this->pSWForward;
-	delete this->pSWGameServer;
+	//delete this->pSWGameServer;
 }
-/*
-bool SteamWorks::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
-{
-	gpGlobals = ismm->GetCGlobals();
-    
-	return true;
-}
-*/

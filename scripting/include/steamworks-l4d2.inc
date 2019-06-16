@@ -1,4 +1,4 @@
-#if defined _steamworks_included
+/*#if defined _steamworks_included
  #endinput
 #endif
 #define _steamworks_included
@@ -38,13 +38,14 @@ enum EUserHasLicenseForApp
 	k_EUserHasLicenseResultDoesNotHaveLicense = 1,			// User does not have a license for the specified app
 	k_EUserHasLicenseResultNoAuth = 2,						// User has not been authenticated
 };
+*/
 
 /**
  * Gets the current status of VAC on the server.
  *
  * @return A bool representing the current VAC status.
  */
-native bool:Steamworks_IsVACEnabled();
+//native bool:Steamworks_IsVACEnabled();
 
 /**
  * Gets the server's external IP address, as reported by Steam.
@@ -54,14 +55,14 @@ native bool:Steamworks_IsVACEnabled();
  * 
  * @noreturn
  */
-native Steamworks_GetPublicIP(addr[4]);
+//native Steamworks_GetPublicIP(addr[4]);
 
 /**
  * Gets the server's external IP address, as reported by Steam.
  * 
  * @return IP in int32 representation
  */
-native Steamworks_GetPublicIPCell();
+//native Steamworks_GetPublicIPCell();
 
 /**
  * Gets the current Steam connection state, the forwards below fire 
@@ -69,14 +70,14 @@ native Steamworks_GetPublicIPCell();
  *
  * @return Steam connection state.
  */
-native bool:Steamworks_IsConnected();
+//native bool:Steamworks_IsConnected();
 
 /**
  * Checks if Steam is loaded
  *
  * @return Steam loaded state.
  */
-native bool:Steamworks_IsLoaded();
+//native bool:Steamworks_IsLoaded();
 
 /**
  * Changes the game description, as reported in the server browser.
@@ -85,7 +86,7 @@ native bool:Steamworks_IsLoaded();
  * 
  * @noreturn
  */
-native Steamworks_SetGameDescription(const String:desc[]);
+//native Steamworks_SetGameDescription(const String:desc[]);
 
 /**
  * Sets an entry in the server's list of rules. This list is used to 
@@ -99,7 +100,7 @@ native Steamworks_SetGameDescription(const String:desc[]);
  *
  * @noreturn
  */
-native Steamworks_SetRule(const String:key[], const String:value[]);
+//native Steamworks_SetRule(const String:key[], const String:value[]);
 
 /**
  * Clears the server's list of rules. This list is used to build the 
@@ -108,14 +109,14 @@ native Steamworks_SetRule(const String:key[], const String:value[]);
  *
  * @noreturn
  */
-native Steamworks_ClearRules();
+//native Steamworks_ClearRules();
 
 /**
  * Force a heartbeat to the Steam servers at the next opportunity
  *
  * @noreturn
  */
-native Steamworks_ForceHeartbeat();
+//native Steamworks_ForceHeartbeat();
 
 /**
  * Checks if the Steam master servers are reporting your server as 
@@ -123,7 +124,7 @@ native Steamworks_ForceHeartbeat();
  *
  * @return True or false
  */
-native bool:Steamworks_WasRestartRequested();
+//native bool:Steamworks_WasRestartRequested();
 
 /**
  * Checks if a client owns license for the specified AppID
@@ -133,7 +134,7 @@ native bool:Steamworks_WasRestartRequested();
  * 
  * @return One of EUserHasLicenseForApp values
  */
-native EUserHasLicenseForApp:Steamworks_UserHasSubscription(client, appID);
+//native EUserHasLicenseForApp:Steamworks_UserHasSubscription(client, appID);
 
 
 /**
@@ -141,7 +142,7 @@ native EUserHasLicenseForApp:Steamworks_UserHasSubscription(client, appID);
  *
  * @noreturn
  */
-forward Steamworks_OnServersConnected();
+//forward Steamworks_OnServersConnected();
 
 /**
  * Fired if an attempted connection to Steam fails
@@ -150,7 +151,7 @@ forward Steamworks_OnServersConnected();
  *
  * @noreturn
  */
-forward Steamworks_OnServersConnectFailure(EResult:result);
+//forward Steamworks_OnServersConnectFailure(EResult:result);
 
 /**
  * Fired upon disconnection from Steam.
@@ -159,7 +160,7 @@ forward Steamworks_OnServersConnectFailure(EResult:result);
  *
  * @noreturn
  */
-forward Steamworks_OnServersDisconnected(EResult:result);
+//forward Steamworks_OnServersDisconnected(EResult:result);
 
 /**
  * Fires whenever a Family Options(formerly "Sharing") user has passed authentication validation
@@ -169,13 +170,13 @@ forward Steamworks_OnServersDisconnected(EResult:result);
  *
  * @noreturn
  */
-forward Steamworks_OnFamilySharingDetected(const String:steamID[], const String:ownerSteamID[]);
+forward SteamWorksL4D2_OnFamilySharingDetected(const String:steamID[], const String:ownerSteamID[]);
 
 
 public Extension:__ext_SteamWorks = 
 {
-	name = "steamworks",
-	file = "steamworks.ext",
+	name = "Steamworks - Left 4 Dead 2",
+	file = "SteamWorks-left4dead2.ext",
 	
 #if defined AUTOLOAD_EXTENSIONS
 	autoload = 1,

@@ -21,23 +21,23 @@
 
 SteamWorksForwards::SteamWorksForwards() :
 		m_CallbackGSClientApprove(this, &SteamWorksForwards::OnGSClientApprove),
-		m_CallbackValidateTicket(this, &SteamWorksForwards::OnValidateTicket),
-		m_CallbackSteamConnected(this, &SteamWorksForwards::OnSteamServersConnected),
+		m_CallbackValidateTicket(this, &SteamWorksForwards::OnValidateTicket)
+		/*m_CallbackSteamConnected(this, &SteamWorksForwards::OnSteamServersConnected),
 		m_CallbackSteamConnectFailure(this, &SteamWorksForwards::OnSteamServersConnectFailure),
-		m_CallbackSteamDisconnected(this, &SteamWorksForwards::OnSteamServersDisconnected)
+		m_CallbackSteamDisconnected(this, &SteamWorksForwards::OnSteamServersDisconnected)*/
 {
-	this->pFOSSC = forwards->CreateForward("Steamworks_OnServersConnected", ET_Ignore, 0, NULL);
-	this->pFOSSCF = forwards->CreateForward("Steamworks_OnServersConnectFailure", ET_Ignore, 1, NULL, Param_Cell);
-	this->pFOSSD = forwards->CreateForward("Steamworks_OnServersDisconnected", ET_Ignore, 1, NULL, Param_Cell);
-    this->pFOVC = forwards->CreateForward("Steamworks_OnFamilySharingDetected", ET_Ignore, 2, NULL, Param_String, Param_String);
+	//this->pFOSSC = forwards->CreateForward("Steamworks_OnServersConnected", ET_Ignore, 0, NULL);
+	//this->pFOSSCF = forwards->CreateForward("Steamworks_OnServersConnectFailure", ET_Ignore, 1, NULL, Param_Cell);
+	//this->pFOSSD = forwards->CreateForward("Steamworks_OnServersDisconnected", ET_Ignore, 1, NULL, Param_Cell);
+    this->pFOVC = forwards->CreateForward("SteamWorksL4D2_OnFamilySharingDetected", ET_Ignore, 2, NULL, Param_String, Param_String);
 }
 
 SteamWorksForwards::~SteamWorksForwards()
 {
 	forwards->ReleaseForward(this->pFOVC);
-	forwards->ReleaseForward(this->pFOSSC);
-	forwards->ReleaseForward(this->pFOSSCF);
-	forwards->ReleaseForward(this->pFOSSD);
+	//forwards->ReleaseForward(this->pFOSSC);
+	//forwards->ReleaseForward(this->pFOSSCF);
+	//forwards->ReleaseForward(this->pFOSSD);
 }
 
 // workaround for compatibility
@@ -80,7 +80,7 @@ void SteamWorksForwards::OnValidateTicket(ValidateAuthTicketResponse_t *pTicket)
 	this->NotifyPawnValidateClient(pTicket->m_SteamID, pTicket->m_OwnerSteamID);
 }
 
-void SteamWorksForwards::OnSteamServersConnected(SteamServersConnected_t *pResponse)
+/*void SteamWorksForwards::OnSteamServersConnected(SteamServersConnected_t *pResponse)
 {
 	if (this->pFOSSC->GetFunctionCount() == 0)
 	{
@@ -110,4 +110,4 @@ void SteamWorksForwards::OnSteamServersDisconnected(SteamServersDisconnected_t *
 
 	this->pFOSSD->PushCell(pResponse->m_eResult);
 	this->pFOSSD->Execute(NULL);
-}
+}*/
